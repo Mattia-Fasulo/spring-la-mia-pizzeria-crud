@@ -9,11 +9,12 @@
   <th:block th:replace="~{ fragments/fragments :: resources }"></th:block>
 </head>
 <body>
-<table th:if="${list.size() > 0}">
+<table th:if="${list.size() > 0}" class="table table-success table-striped">
   <thead>
   <th>Name</th>
   <th>Description</th>
   <th>Price</th>
+  <th>Image</th>
 
   </thead>
   <tbody>
@@ -21,6 +22,12 @@
     <td th:text="*{name}"></td>
     <td th:text="*{description}"></td>
     <td th:text="*{price}"></td>
+    <td>
+      <div class="container-img">
+        <img th:src="*{imgPath}" th:alt="*{name}">
+      </div>
+
+    </td>
 
   </tr>
   </tbody>

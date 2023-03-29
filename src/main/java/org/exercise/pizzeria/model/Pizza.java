@@ -17,6 +17,10 @@ public class Pizza {
 
     private BigDecimal price;
 
+    private String imgPath;
+
+
+
     public Integer getId() {
         return id;
     }
@@ -29,8 +33,16 @@ public class Pizza {
         return description;
     }
 
+    public String getImgPath() {
+        return imgPath;
+    }
+
     public BigDecimal getPrice() {
         return price;
+    }
+
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
     }
 
     public void setId(Integer id) {
