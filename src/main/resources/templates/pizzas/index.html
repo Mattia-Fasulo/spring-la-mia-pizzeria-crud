@@ -1,37 +1,41 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Title</title>
-  <th:block th:replace="~{ fragments/fragments :: resources }"></th:block>
+  <th:block th:replace="~{ fragments/resources :: resources }"></th:block>
 </head>
 <body>
-<table th:if="${list.size() > 0}" class="table table-success table-striped">
-  <thead>
-  <th>Name</th>
-  <th>Description</th>
-  <th>Price</th>
-  <th>Image</th>
+<th:block th:replace="~{fragments/navbar :: navbar('pizzas')}"></th:block>
+<div class="container">
+  <table th:if="${list.size() > 0}" class="table table-success table-striped mt-5">
+    <thead>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Price</th>
+    <th>Image</th>
 
-  </thead>
-  <tbody>
-  <tr th:each="pizza : ${list}" th:object="${pizza}">
-    <td th:text="*{name}"></td>
-    <td th:text="*{description}"></td>
-    <td th:text="*{price}"></td>
-    <td>
-      <div class="container-img">
-        <img th:src="*{imgPath}" th:alt="*{name}">
-      </div>
+    </thead>
+    <tbody>
+    <tr th:each="pizza : ${list}" th:object="${pizza}">
+      <td th:text="*{name}"></td>
+      <td th:text="*{description}"></td>
+      <td th:text="*{price}"></td>
+      <td>
+        <div class="container-img">
+          <img th:src="*{imgPath}" th:alt="*{name}">
+        </div>
 
-    </td>
+      </td>
 
-  </tr>
-  </tbody>
-</table>
-<h1 th:unless="${list.size() > 0}">There are no pizzas</h1>
+    </tr>
+    </tbody>
+  </table>
+  <h1 th:unless="${list.size() > 0}">There are no pizzas</h1>
+</div>
+
 </body>
 </html>

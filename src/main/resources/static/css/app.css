@@ -8,3 +8,11 @@ img {
     height: 100%;
 }
 
+.not-active{
+    color: gray !important;
+}
+
+.logo{
+    width: 40px;
+}
+
