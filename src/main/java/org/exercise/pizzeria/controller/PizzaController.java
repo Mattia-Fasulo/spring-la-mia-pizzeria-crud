@@ -56,7 +56,7 @@ public class PizzaController {
     public String searchResult(Model model,
                                @RequestParam(name = "i") Optional<String> ingredients,
                                @RequestParam(name = "p") Optional<BigDecimal> price){
-        List<Pizza> pizzas = pizzaRepository.findByDescriptionContainingAndPriceIsLessThanEqual(ingredients.orElse(null), price.orElse(null));
+        List<Pizza> pizzas = pizzaRepository.findByDescriptionContainingAndPriceIsLessThanEqual(ingredients.orElse(null), price.orElse(BigDecimal.valueOf(1000)));
         model.addAttribute("list", pizzas);
         return "/pizzas/index";
     }
