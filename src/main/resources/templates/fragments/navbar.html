@@ -7,7 +7,7 @@
 
 <!-- fragment for navbar -->
 <nav
-        th:fragment="navbar(current)"
+        th:fragment="navbar(current, keyword, showSearch)"
         class="navbar navbar-expand-lg bg-secondary "
         data-bs-theme="dark"
 >
@@ -45,8 +45,19 @@
 
       </ul>
 
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+      <form
+              th:if="${showSearch}"
+              method="get"
+              th:action="@{/pizzas}"
+              class="d-flex"
+              role="search">
+        <input
+                name="q"
+                th:value="${keyword}"
+                class="form-control me-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search">
         <button class="btn btn-light" type="submit">Search</button>
       </form>
 
