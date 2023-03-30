@@ -5,18 +5,19 @@
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Title</title>
+    <title>Pizzas</title>
   <th:block th:replace="~{ fragments/resources :: resources }"></th:block>
 </head>
 <body>
 <th:block th:replace="~{fragments/navbar :: navbar('pizzas')}"></th:block>
 <div class="container">
-  <table th:if="${list.size() > 0}" class="table table-success table-striped mt-5">
+  <table th:if="${list.size() > 0}" class="table table-dark table-striped mt-5">
     <thead>
     <th>Name</th>
     <th>Description</th>
     <th>Price</th>
     <th>Image</th>
+    <th></th>
 
     </thead>
     <tbody>
@@ -28,7 +29,10 @@
         <div class="container-img">
           <img th:src="*{imgPath}" th:alt="*{name}">
         </div>
-
+      </td>
+      <td>
+        <a th:href="@{|/pizzas/*{id}|}" class="text-light"  title="detail"><i
+                class="fa-solid fa-pizza-slice"></i></a>
       </td>
 
     </tr>

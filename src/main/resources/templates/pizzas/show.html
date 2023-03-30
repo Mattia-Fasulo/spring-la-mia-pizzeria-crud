@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Detail Pizza</title>
+  <th:block th:replace="~{ fragments/resources :: resources }"></th:block>
+</head>
+<body>
+<th:block th:replace="~{fragments/navbar :: navbar('pizzas')}"></th:block>
+<div class="container" th:object="${pizza}">
+  <h1 th:text="*{name}">Books</h1>
+  <hr/>
+  <div>
+    <dl>
+      <dt>Ingredients</dt>
+      <dd th:text="*{description}"></dd>
+      <dt>Price</dt>
+      <dd th:text="*{price}"></dd>
+      <dt>Images</dt>
+      <div class="container-img-show">
+        <img th:src="*{imgPath}" th:alt="*{name}">
+      </div>
+
+    </dl>
+  </div>
+</div>
+
+</body>
+</html>
