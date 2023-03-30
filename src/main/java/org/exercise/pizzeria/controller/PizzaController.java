@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +25,9 @@ public class PizzaController {
 
 
     @GetMapping
-    public String index(Model model, @RequestParam(name = "q") Optional<String> keyword) {
+    public String index(Model model,
+                        @RequestParam(name = "q") Optional<String> keyword
+                        ) {
         List<Pizza> pizzas;
         if(keyword.isEmpty()){
             pizzas = pizzaRepository.findAll();
@@ -43,4 +46,19 @@ public class PizzaController {
         model.addAttribute("pizza", p);
         return "/pizzas/show";
     }
+
+    @GetMapping("/search")
+    public String search(){
+        return "/pizzas/search";
+    }
+
+    @GetMapping("/search/result")
+    public String searchResult(Model model,
+                               @RequestParam(name = "i") Optional<String> ingredients,
+                               @RequestParam(name = "p") Optional<BigDecimal> price){
+        List<Pizza> pizzas = pizzaRepository.findByDescriptionContainingAndPriceIsLessThanEqual(ingredients.orElse(null), price.orElse(null));
+        model.addAttribute("list", pizzas);
+        return "/pizzas/index";
+    }
+
 }

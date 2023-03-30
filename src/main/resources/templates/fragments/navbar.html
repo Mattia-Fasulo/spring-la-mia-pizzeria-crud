@@ -30,6 +30,15 @@
           >Pizzas
           </a>
         </li>
+        <li class="nav-item">
+          <a
+                  th:href="@{/pizzas/search}"
+                  class="nav-link text-light"
+                  th:classAppend="${current == 'search'} ? active : 'not-active'"
+                  aria-current="page"
+          >Search
+          </a>
+        </li>
 
         <!-- <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -58,7 +67,7 @@
                 type="search"
                 placeholder="Search"
                 aria-label="Search">
-        <button class="btn btn-light" type="submit">Search</button>
+        <button class="btn btn-light" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
       </form>
 
     </div>

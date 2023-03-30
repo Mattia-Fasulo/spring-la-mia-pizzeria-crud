@@ -16,7 +16,8 @@
     <th></th>
 
     </thead>
-    <tbody>
+
+    <tbody class="table-group-divider">
     <tr th:each="pizza : ${list}" th:object="${pizza}">
       <td th:text="*{name}"></td>
       <td th:text="*{description}"></td>
