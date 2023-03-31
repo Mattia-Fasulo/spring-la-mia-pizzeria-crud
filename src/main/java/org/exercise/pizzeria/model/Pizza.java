@@ -1,6 +1,9 @@
 package org.exercise.pizzeria.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
 
@@ -10,16 +13,28 @@ public class Pizza {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
+    @NotEmpty(message = "must not be empty")
     private String name;
     @Lob
+    @NotEmpty(message = "must not be empty")
     private String description;
-
+    @NotNull(message = "the price must be greater than zero")
+    @Positive
     private BigDecimal price;
 
+    @NotEmpty(message = "must not be empty")
     private String imgPath;
 
+    public Pizza() {
+        super();
+    }
 
+    public Pizza(String name, String description, BigDecimal price, String imgPath) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.imgPath = imgPath;
+    }
 
     public Integer getId() {
         return id;

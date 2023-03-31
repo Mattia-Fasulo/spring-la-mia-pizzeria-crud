@@ -1,5 +1,6 @@
 package org.exercise.pizzeria.controller;
 
+import jakarta.validation.Valid;
 import org.exercise.pizzeria.model.Pizza;
 import org.exercise.pizzeria.repository.PizzaRepository;
 import org.exercise.pizzeria.services.PizzaService;
@@ -7,10 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
@@ -60,6 +59,24 @@ public class PizzaController {
         List<Pizza> pizzas = pizzaService.getByDescriptionAndPrice(ingredients, price);
         model.addAttribute("list", pizzas);
         return "/pizzas/index";
+    }
+
+    @GetMapping("/create")
+    public String create(Model model) {
+        model.addAttribute("pizza", new Pizza());
+        return "/pizzas/create";
+    }
+    @PostMapping("/create")
+    public String doCreate(Model model,
+                           @Valid @ModelAttribute("pizza") Pizza formPizza,
+                           BindingResult bindingResult) {
+
+        if(bindingResult.hasErrors()){
+            return "/pizzas/create";
+        }
+
+        pizzaService.createPizza(formPizza);
+        return "redirect:/pizzas";
     }
 
 }

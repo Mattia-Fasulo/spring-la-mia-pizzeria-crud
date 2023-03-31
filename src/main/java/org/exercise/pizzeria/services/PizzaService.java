@@ -25,7 +25,7 @@ public class PizzaService {
         return pizzaRepository.findByNameContainingIgnoreCase(keyword);
     }
 
-    public Pizza getById(Integer id){
+    public Pizza getById(Integer id) throws ResponseStatusException{
 
         //pizzaRepository.findById(id).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND))
 
@@ -33,12 +33,22 @@ public class PizzaService {
         if(result.isPresent()){
             return result.get();
         }else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new RuntimeException();
         }
 
     }
 
     public List<Pizza> getByDescriptionAndPrice(Optional<String> ingredients, Optional<BigDecimal> price){
         return pizzaRepository.findByDescriptionContainingAndPriceIsLessThanEqual(ingredients.orElse(null), price.orElse(BigDecimal.valueOf(1000)));
+    }
+
+    public Pizza createPizza(Pizza formPizza){
+        Pizza pizzaToPersist = new Pizza();
+        pizzaToPersist.setName(formPizza.getName());
+        pizzaToPersist.setDescription(formPizza.getDescription());
+        pizzaToPersist.setPrice(formPizza.getPrice());
+        pizzaToPersist.setImgPath(formPizza.getImgPath());
+        return  pizzaRepository.save(pizzaToPersist);
+
     }
 }
