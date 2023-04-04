@@ -1,6 +1,7 @@
 package org.exercise.pizzeria.controller;
 
 import jakarta.validation.Valid;
+import org.exercise.pizzeria.exceptions.PizzaNotFoundException;
 import org.exercise.pizzeria.model.Pizza;
 import org.exercise.pizzeria.repository.PizzaRepository;
 import org.exercise.pizzeria.services.PizzaService;
@@ -77,6 +78,37 @@ public class PizzaController {
 
         pizzaService.createPizza(formPizza);
         return "redirect:/pizzas";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String edit(
+            @PathVariable Integer id,
+            Model model
+    ){
+        try {
+           Pizza pizza = pizzaService.getById(id);
+           model.addAttribute("pizza", pizza);
+           return "/pizzas/create";
+        } catch(PizzaNotFoundException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "pizza with id " + id + " not found");
+        }
+
+    }
+
+    @PostMapping("/edit/{id}")
+    public String doEdit(
+            @PathVariable Integer id,
+            @Valid @ModelAttribute("book") Pizza formPizza,
+            BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return "/pizzas/create";
+        }
+        try{
+            Pizza updatePizza = pizzaService.updatePizza(formPizza, id);
+            return "redirect:/pizzas/" + Integer.toString(updatePizza.getId());
+        } catch(PizzaNotFoundException e) {
+            throw  new ResponseStatusException(HttpStatus.NOT_FOUND, "pizza with id " + id + " not found");
+        }
     }
 
 }

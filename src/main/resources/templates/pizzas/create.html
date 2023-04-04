@@ -11,18 +11,21 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <th:block th:replace="~{ fragments/resources :: resources }"></th:block>
-  <title>Create</title>
+  <title>Save</title>
 </head>
-<body>
+
+<body th:with="edit=${pizza.id != null}">
+
 <th:block th:replace="~{fragments/navbar :: navbar('pizzas', '', false)}"></th:block>
 
-<h3 class="text-center mt-5">Create your pizza</h3>
+<h3 class="text-center mt-5" th:text="${edit ? 'Edit Pizza' : 'Create your Pizza'}"></h3>
 
 <div class="container d-flex justify-content-center">
   <div class="container-form mt-4">
     <form
             th:object="${pizza}"
-            th:action="@{/pizzas/create}"
+            th:with="formAction=${edit ? '/pizzas/edit/' + pizza.id : '/pizzas/create'}"
+            th:action="@{${formAction}}"
             method="post"
             role="search"
     >
@@ -67,7 +70,7 @@
         </div>
       </div>
 
-      <button type="submit" class="btn btn-secondary">Add</button>
+      <button type="submit" class="btn btn-secondary" th:text="${edit ? 'Edit' : 'Add'}"></button>
       <a class="btn btn-danger" th:href="@{/pizzas}">Cancel</a>
     </form>
   </div>

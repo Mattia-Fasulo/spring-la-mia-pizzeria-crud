@@ -1,5 +1,6 @@
 package org.exercise.pizzeria.services;
 
+import org.exercise.pizzeria.exceptions.PizzaNotFoundException;
 import org.exercise.pizzeria.model.Pizza;
 import org.exercise.pizzeria.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class PizzaService {
 
         Optional<Pizza> result = pizzaRepository.findById(id);
         if (result.isEmpty()) {
-            throw new RuntimeException();
+            throw new PizzaNotFoundException("Pizza not found");
         } else {
             return result.get();
         }
@@ -56,4 +57,15 @@ public class PizzaService {
         return  pizzaRepository.save(pizzaToPersist);
 
     }
+
+    public Pizza updatePizza(Pizza formPizza, Integer id){
+        Pizza pizzaToUpdate = getById(id);
+        pizzaToUpdate.setName(formPizza.getName());
+        pizzaToUpdate.setDescription(formPizza.getDescription());
+        pizzaToUpdate.setPrice(formPizza.getPrice());
+        pizzaToUpdate.setImgPath(formPizza.getImgPath());
+        return pizzaRepository.save(pizzaToUpdate);
+    }
+
+
 }
