@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,10 +32,10 @@ public class PizzaService {
         //pizzaRepository.findById(id).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND))
 
         Optional<Pizza> result = pizzaRepository.findById(id);
-        if(result.isPresent()){
-            return result.get();
-        }else {
+        if (result.isEmpty()) {
             throw new RuntimeException();
+        } else {
+            return result.get();
         }
 
     }
@@ -43,11 +45,14 @@ public class PizzaService {
     }
 
     public Pizza createPizza(Pizza formPizza){
+
+
         Pizza pizzaToPersist = new Pizza();
         pizzaToPersist.setName(formPizza.getName());
         pizzaToPersist.setDescription(formPizza.getDescription());
         pizzaToPersist.setPrice(formPizza.getPrice());
         pizzaToPersist.setImgPath(formPizza.getImgPath());
+        pizzaToPersist.setCreatedAt(LocalDateTime.now());
         return  pizzaRepository.save(pizzaToPersist);
 
     }
