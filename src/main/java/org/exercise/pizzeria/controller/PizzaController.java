@@ -2,6 +2,7 @@ package org.exercise.pizzeria.controller;
 
 import jakarta.validation.Valid;
 import org.exercise.pizzeria.exceptions.PizzaNotFoundException;
+import org.exercise.pizzeria.model.AlertMessage;
 import org.exercise.pizzeria.model.Pizza;
 import org.exercise.pizzeria.repository.PizzaRepository;
 import org.exercise.pizzeria.services.PizzaService;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -98,7 +100,7 @@ public class PizzaController {
     @PostMapping("/edit/{id}")
     public String doEdit(
             @PathVariable Integer id,
-            @Valid @ModelAttribute("book") Pizza formPizza,
+            @Valid @ModelAttribute("pizza") Pizza formPizza,
             BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             return "/pizzas/create";
@@ -109,6 +111,27 @@ public class PizzaController {
         } catch(PizzaNotFoundException e) {
             throw  new ResponseStatusException(HttpStatus.NOT_FOUND, "pizza with id " + id + " not found");
         }
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(
+            @PathVariable Integer id,
+            RedirectAttributes redirectAttributes
+    ){
+        try{
+            boolean success = pizzaService.deleteById(id);
+            if(success){
+                redirectAttributes.addFlashAttribute("message",
+                        new AlertMessage(AlertMessage.AlertMessageType.SUCCESS, "Pizza with id " + id + " deleted"));
+            } else {
+                redirectAttributes.addFlashAttribute("message",
+                        new AlertMessage(AlertMessage.AlertMessageType.ERROR, "Unable to delete pizza with id " + id));
+            }
+        } catch(PizzaNotFoundException e) {
+            redirectAttributes.addFlashAttribute("message",
+                    new AlertMessage(AlertMessage.AlertMessageType.ERROR, "Pizza with id " + id + " not found"));
+        }
+        return "redirect:/pizzas";
     }
 
 }

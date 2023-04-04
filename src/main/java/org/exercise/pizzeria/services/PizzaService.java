@@ -28,7 +28,7 @@ public class PizzaService {
         return pizzaRepository.findByNameContainingIgnoreCase(keyword);
     }
 
-    public Pizza getById(Integer id) throws ResponseStatusException{
+    public Pizza getById(Integer id) throws PizzaNotFoundException{
 
         //pizzaRepository.findById(id).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND))
 
@@ -39,6 +39,16 @@ public class PizzaService {
             return result.get();
         }
 
+    }
+
+    public boolean deleteById(Integer id) throws PizzaNotFoundException{
+        pizzaRepository.findById(id).orElseThrow(()->new PizzaNotFoundException(Integer.toString(id)));
+        try{
+            pizzaRepository.deleteById(id);
+            return true;
+        } catch(Exception e){
+            return false;
+        }
     }
 
     public List<Pizza> getByDescriptionAndPrice(Optional<String> ingredients, Optional<BigDecimal> price){
