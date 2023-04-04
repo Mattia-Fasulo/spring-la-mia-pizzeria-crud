@@ -77,5 +77,12 @@ public class PizzaService {
         return pizzaRepository.save(pizzaToUpdate);
     }
 
+    public boolean isValidName(Pizza pizzaToValidate){
+        if(pizzaToValidate.getId() == null){
+            return !pizzaRepository.existsByName(pizzaToValidate.getName());
+        }
+        return !pizzaRepository.existsByNameAndIdNot(pizzaToValidate.getName(), pizzaToValidate.getId());
+    }
+
 
 }

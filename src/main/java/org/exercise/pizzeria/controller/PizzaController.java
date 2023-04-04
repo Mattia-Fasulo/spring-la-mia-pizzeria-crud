@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -74,6 +75,11 @@ public class PizzaController {
                            @Valid @ModelAttribute("pizza") Pizza formPizza,
                            BindingResult bindingResult) {
 
+        if (!pizzaService.isValidName(formPizza)) {
+            bindingResult.addError(new FieldError("pizza", "name", formPizza.getName(), false, null, null,
+                    "name must be unique"));
+        }
+
         if(bindingResult.hasErrors()){
             return "/pizzas/create";
         }
@@ -102,6 +108,11 @@ public class PizzaController {
             @PathVariable Integer id,
             @Valid @ModelAttribute("pizza") Pizza formPizza,
             BindingResult bindingResult){
+        if (!pizzaService.isValidName(formPizza)) {
+            bindingResult.addError(new FieldError("pizza", "name", formPizza.getName(), false, null, null,
+                    "name must be unique"));
+        }
+
         if(bindingResult.hasErrors()){
             return "/pizzas/create";
         }

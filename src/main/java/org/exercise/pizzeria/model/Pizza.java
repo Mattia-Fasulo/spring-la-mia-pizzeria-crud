@@ -15,8 +15,9 @@ public class Pizza {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @NotEmpty(message = "must not be empty")
-    @Column(name = "name", columnDefinition = "varchar(40)")
+    @Column(name = "name", columnDefinition = "varchar(40)", nullable = false, unique = true)
     private String name;
     @Lob
     @NotEmpty(message = "must not be empty")
